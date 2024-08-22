@@ -85,5 +85,7 @@ private:
 	//Tshirts•`‰æ
 	void DrawTshirts(void);
 
+	//‚¤‚Ç‚ñ
+	int UdonIMG_;
 };
 

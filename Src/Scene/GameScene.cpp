@@ -14,6 +14,8 @@ GameScene::~GameScene(void)
 
 void GameScene::Init(void)
 {
+	std::string basePath = Application::PATH_IMAGE;
+
 	//連打数
 	rash_ = 0; 
 	//時間
@@ -31,6 +33,9 @@ void GameScene::Init(void)
 
 	//クール中フラグ
 	isCool_ = false;
+
+	//うどん絵
+	UdonIMG_ = LoadGraph((basePath + "UdonMax.png").c_str());
 }
 
 void GameScene::Update(void)
@@ -100,6 +105,10 @@ void GameScene::Draw(void)
 
 	// ゲージ描画
 	DrawGauge();
+
+	//うどんの描画
+	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 200, 0.07, 0, UdonIMG_, true);
+
 }
 
 void GameScene::Release(void)
