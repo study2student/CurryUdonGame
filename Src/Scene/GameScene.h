@@ -91,7 +91,18 @@ private:
 	//Tshirtsï`âÊ
 	void DrawTshirts(void);
 
-	//Ç§Ç«ÇÒ
+	//Ç§Ç«ÇÒÇÃéM
 	int UdonIMG_;
+
+	//ãÛÇÃÇ§Ç«ÇÒ
+	int UdonNullIMG_;
+
+	//Ç§Ç«ÇÒÇÃmenn
+	int noodleIMG_;
+	//Ç§Ç«ÇÒÇÃç¿ïW
+	VECTOR noodlePos_;
+
+	//Ç§Ç«ÇÒÇÃï`âÊ
+	void DrawUdon(void);
 };
 

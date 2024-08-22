@@ -36,6 +36,10 @@ void GameScene::Init(void)
 
 	//Ç§Ç«ÇÒäG
 	UdonIMG_ = LoadGraph((basePath + "UdonMax.png").c_str());
+	UdonNullIMG_ = LoadGraph((basePath + "UdonNull.png").c_str());
+	noodleIMG_ = LoadGraph((basePath + "Udon1.png").c_str());
+
+	noodlePos_ = { Application::SCREEN_SIZE_X / 2,Application::SCREEN_SIZE_Y };
 }
 
 void GameScene::Update(void)
@@ -87,6 +91,19 @@ void GameScene::Update(void)
 		time_ -= 1 / 60.0f;
 	}
 
+
+	//Ç§Ç«ÇÒÇÃmennÇÃç¿ïWÇâ¬ïœ
+	for (int i = 0; i < 3; i++)
+	{
+		noodlePos_.y += 10;
+	}
+
+	noodlePos_.y -= 50;
+
+	if (noodlePos_.y <= -384)
+	{
+		noodlePos_.y = Application::SCREEN_SIZE_Y;
+	}
 }
 
 void GameScene::Draw(void)
@@ -107,8 +124,7 @@ void GameScene::Draw(void)
 	DrawGauge();
 
 	//Ç§Ç«ÇÒÇÃï`âÊ
-	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 200, 0.07, 0, UdonIMG_, true);
-
+	DrawUdon();
 }
 
 void GameScene::Release(void)
@@ -202,28 +218,44 @@ void GameScene::DrawTshirts(void)
 	{
 	case DIRT_STATE::WHITE:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsWhite_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsWhite_, true);
 	}
 	break;
 	case DIRT_STATE::LOW:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsLow_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsLow_, true);
 	}
 	break;
 	case DIRT_STATE::MIDDLE:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsMiddle_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsMiddle_, true);
 	}
 	break;
 	case DIRT_STATE::HIGH:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsHigh_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsHigh_, true);
 	}
 	break;
 	case DIRT_STATE::MAX:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsMax_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsMax_, true);
 	}
 	break;
 	}
+}
+
+void GameScene::DrawUdon(void)
+{
+	//Ç§Ç«ÇÒÇÃï`âÊ
+	if (rash_ <= 70)
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 + 200, 0.4, 0, UdonIMG_, true);
+	}
+	else
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 + 200, 0.4, 0, UdonNullIMG_, true);
+	}
+	//Ç§Ç«ÇÒÇÃmennÇÃï`âÊ
+	DrawRotaGraphFast(noodlePos_.x, noodlePos_.y, 0.25, 0, noodleIMG_, true);
+
 }
