@@ -8,7 +8,7 @@ public:
 	static constexpr int SCORE_MAX = 120;
 
 	//ゲージマックス
-	static constexpr int GAUGE_MAX = 200;
+	static constexpr int GAUGE_MAX = 300;
 
 	//ゲージの上がり幅
 	static constexpr float GAUGE_INC = 1000.0f;
@@ -118,5 +118,9 @@ private:
 #pragma endregion
 
 
+
+	// 箸の絵,座標
+	int sticksIMG_;
+	VECTOR sticksPos_;
 };
 

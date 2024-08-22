@@ -38,8 +38,7 @@ void SceneManager::Init(void)
 
 	// ‰ŠúƒV[ƒ“‚Ìİ’è
 	DoChangeScene(SCENE_ID::TITLE);
-
-	SetBackgroundColor(0, 139, 139);
+	SetBackgroundColor(200, 239, 255);
 
 }
 
