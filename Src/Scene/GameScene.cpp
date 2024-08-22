@@ -53,7 +53,7 @@ void GameScene::Draw(void)
 	DrawFormatString(300, 300, 0xff0000, "ENTER:%d", rash_);
 
 	//ŽžŠÔ
-	DrawFormatString(300, 200, 0xff0000, "TIME:%f", time_);
+	DrawFormatString(300, 200, 0xff0000, "TIME:%.f", time_);
 
 	//test
 	DrawString(50, 50, "test", 0x000000);
