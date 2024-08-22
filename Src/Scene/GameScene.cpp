@@ -121,7 +121,17 @@ void GameScene::GaugeUpdate(void)
 
 	//割合を計算する
 	gaugePercent_ = gaugeLen_ / RUSHGAUGE_MAX;
-	if (gaugePercent_ >= 0.0f)
+	if (gaugePercent_ >= PERCENT_MAX)
+	{
+		gaugePercent_ = PERCENT_MAX;
+		gaugeLen_ = RUSHGAUGE_MAX;
+	}
+	if (gaugePercent_ < 0.0f)
+	{
+		gaugePercent_ = 0.0f;
+		gaugeLen_ = 0.0f;
+	}
+	if (gaugePercent_ >= 0.0f&&pushStopCnt_>= PUSH_STOP_MAX)
 	{
 		gaugeLen_ -= GAUGE_DECREASE;
 	}
@@ -131,17 +141,18 @@ void GameScene::GaugeUpdate(void)
 	}
 
 	//ゲージがマックスになったら連打できないようにする
-	if (gaugePercent_ < PERCENT_MAX)
+	if (gaugePercent_ <= PERCENT_MAX)
 	{
-		if (ins.IsTrgDown(KEY_INPUT_RETURN) && gaugeLen_ <= GAUGE_MAX)
+		if (ins.IsTrgDown(KEY_INPUT_RETURN) && gaugePercent_ < PERCENT_MAX)
 		{
 			rash_++;
 			gaugeLen_++;
+			pushStopCnt_ = 0;
 		}
-	}
-	else
-	{
-		isCool_ = true;
+		else
+		{
+			pushStopCnt_++;
+		}
 	}
 
 
@@ -155,9 +166,19 @@ void GameScene::DrawGauge(void)
 	VECTOR h = { g.x + 50, g.y + GAUGE_MAX };
 
 	//DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * GAUGE_INC)/ GAUGE_MAX, 0xff0000, true);
-	DrawBox(g.x, h.y, h.x, h.y - gaugePercent_*GAUGE_MAX, 0xff0000, true);
+	DrawBox(g.x, h.y, h.x, h.y - gaugePercent_ * GAUGE_MAX, 0xff0000, true);
 	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false, 5
 	);
+	
+
+
+
+
+	DrawFormatString(0, 0, 0x000000, "Percent(%f)", gaugePercent_);
+
+
+
+
 	
 	//DrawBox(sc_x, sc_y, sc_x + (bikes_[playerID]->GetHP() * HP_BAR_WIDTH) / Bike::MAX_HP, HP_BAR_HEIGHT, 0x00aeef, true); // HPバー
 

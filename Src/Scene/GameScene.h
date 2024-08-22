@@ -13,6 +13,9 @@ public:
 	//ゲージの上がり幅
 	static constexpr float GAUGE_INC = 1000.0f;
 
+	//連打ストップカウントマックス
+	static constexpr int PUSH_STOP_MAX = 60;
+
 
 	// Tシャツの汚れ状態
 	enum  class DIRT_STATE
@@ -31,7 +34,7 @@ public:
 	static constexpr float PERCENT_MAX = 1.0f;
 
 	//ゲージの下がり幅
-	static constexpr float GAUGE_DECREASE =0.05f;
+	static constexpr float GAUGE_DECREASE =0.5f;
 
 	// コンストラクタ
 	GameScene(void);
@@ -60,6 +63,9 @@ private:
 
 	//マックスになった時のクールタイム
 	bool isCool_;
+
+	//連打が止まったカウント
+	int pushStopCnt_;
 
 	//ゲージの更新
 	void GaugeUpdate(void);
