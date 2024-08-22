@@ -29,11 +29,17 @@ void GameScene::Update(void)
 	{
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
-	if (ins.IsTrgDown(KEY_INPUT_RETURN))
+
+	//ゲージがマックスになったら連打できないようにする
+	if (gaugeLen_ <= GAUGE_MAX)
 	{
-		rash_++;
-		gaugeLen_+=200;
+		if (ins.IsTrgDown(KEY_INPUT_RETURN))
+		{
+			rash_++;
+			gaugeLen_ ++;
+		}
 	}
+
 
 
 	//時間を減らす
@@ -45,6 +51,7 @@ void GameScene::Update(void)
 	{
 		time_ -= 1 / 60.0f;
 	}
+
 }
 
 void GameScene::Draw(void)
@@ -73,7 +80,7 @@ void GameScene::DrawGauge(void)
 	VECTOR g = { 200,100 };
 	VECTOR h = { g.x + 50, g.y + GAUGE_MAX };
 
-	DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * 10) / GAUGE_MAX, 0xff0000, true);
+	DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * GAUGE_INC)/ GAUGE_MAX, 0xff0000, true);
 	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false,10);
 	//DrawBox(sc_x, sc_y, sc_x + (bikes_[playerID]->GetHP() * HP_BAR_WIDTH) / Bike::MAX_HP, HP_BAR_HEIGHT, 0x00aeef, true); // HPバー
 

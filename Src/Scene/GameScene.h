@@ -9,6 +9,10 @@ public:
 
 	//ゲージマックス
 	static constexpr int GAUGE_MAX = 200;
+
+	//ゲージの上がり幅
+	static constexpr float GAUGE_INC = 1000.0f;
+
 	// コンストラクタ
 	GameScene(void);
 
