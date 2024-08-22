@@ -17,18 +17,14 @@ GameScene::~GameScene(void)
 
 void GameScene::Init(void)
 {
-<<<<<<< Updated upstream
+
 	std::string basePath = Application::PATH_IMAGE;
 	std::string fontPath = Application::PATH_FONT;
 
 	//連打数
-	rash_ = 0;
-=======
-	
-
 	//スコアのリセット
 	rash_.ResetScore();
->>>>>>> Stashed changes
+
 	//時間
 	time_ = 15.0f;
 	//ゲージの長さ
@@ -118,15 +114,14 @@ void GameScene::Draw(void)
 	SetFontSize(40);
 	ChangeFont("Paintball_Beta", DX_CHARSET_DEFAULT);
 	DrawFormatString(100, 100, 0xff0000, "Game");
-<<<<<<< Updated upstream
-=======
+
 
 	//時間
 	DrawFormatString(300, 200, 0xff0000, "TIME:%.f", time_);
 
 	//test
 	DrawString(50, 50, "test", 0x000000);
->>>>>>> Stashed changes
+
 
 	//tシャツの描画
 	DrawTshirts();
@@ -137,17 +132,13 @@ void GameScene::Draw(void)
 	//うどんの描画
 	DrawUdon();
 
-<<<<<<< Updated upstream
+
 	//時間
 	DrawFormatString(10, 10, 0xff0000, "TIME:%.f", time_);
 
-	DrawFormatString(10, 70, 0xff0000, "ENTER:%d", rash_);
-
-	
-=======
 	DrawFormatString(300, 0, 0xff0000, "ENTER:%d", rash_.GetScore());
 
->>>>>>> Stashed changes
+
 }
 
 void GameScene::Release(void)
@@ -166,28 +157,21 @@ void GameScene::GaugeUpdate(void)
 	{
 		gaugeLen_ -= GAUGE_DECREASE;
 	}
-<<<<<<< Updated upstream
-	
-=======
+
 	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
 	{
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
->>>>>>> Stashed changes
+
 
 	//ゲージがマックスになったら連打できないようにする
 	if (gaugePercent_ <= PERCENT_MAX)
 	{
 		if (ins.IsTrgDown(KEY_INPUT_RETURN))
 		{
-<<<<<<< Updated upstream
+
 			RashUpdate();
-			
-=======
-			rash_.AddScore(1);
-			gaugeLen_++;
-			pushStopCnt_ = 0;
->>>>>>> Stashed changes
+
 		}
 		else
 		{
@@ -203,7 +187,7 @@ void GameScene::RashUpdate(void)
 {
 	if (!isCool_)
 	{
-		rash_++;
+		rash_.AddScore(1);
 		gaugeLen_++;
 		pushStopCnt_ = 0;
 	}
