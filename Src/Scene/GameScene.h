@@ -13,6 +13,17 @@ public:
 	//ゲージの上がり幅
 	static constexpr float GAUGE_INC = 1000.0f;
 
+	// Tシャツの汚れ状態
+	enum  class DIRT_STATE
+	{
+		NONE,
+		WHITE,
+		LOW,
+		MIDDLE,
+		HIGH,
+		MAX
+	};
+
 	// コンストラクタ
 	GameScene(void);
 
@@ -37,5 +48,23 @@ private:
 
 	//ゲージの描画
 	void DrawGauge(void);
+
+	//Tシャツの画像
+	int Tshirts_;
+	int TshirtsWhite_;
+	int TshirtsLow_;
+	int TshirtsMiddle_;
+	int TshirtsHigh_;
+	int TshirtsMax_;
+
+
+	// Tシャツの汚れ状態
+	DIRT_STATE dirtState_;
+
+	//Tシャツの画像をロード
+	void LoadIMG(void);
+
+	//Tshirts描画
+	void DrawTshirts(void);
 };
 

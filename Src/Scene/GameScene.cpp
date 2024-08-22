@@ -20,6 +20,10 @@ void GameScene::Init(void)
 	time_ = 15.0f;
 	//ゲージの長さ
 	gaugeLen_ = 0.0f;
+
+	LoadIMG();
+
+	dirtState_ = DIRT_STATE::WHITE;
 }
 
 void GameScene::Update(void)
@@ -40,7 +44,23 @@ void GameScene::Update(void)
 		}
 	}
 
-
+	//連打数によってTシャツが変わるように
+	if (rash_ >= 10)
+	{
+		dirtState_ = DIRT_STATE::LOW;
+	}
+	if (rash_ >= 30)
+	{
+		dirtState_ = DIRT_STATE::MIDDLE;
+	}
+	if (rash_ >= 50)
+	{
+		dirtState_ = DIRT_STATE::HIGH;
+	}
+	if (rash_ >= 70)
+	{
+		dirtState_ = DIRT_STATE::MAX;
+	}
 
 	//時間を減らす
 	if (time_ <= 0.0f)
@@ -65,6 +85,8 @@ void GameScene::Draw(void)
 	//test
 	DrawString(50, 50, "test", 0x000000);
 
+	//tシャツの描画
+	DrawTshirts();
 
 	// ゲージ描画
 	DrawGauge();
@@ -84,4 +106,48 @@ void GameScene::DrawGauge(void)
 	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false,10);
 	//DrawBox(sc_x, sc_y, sc_x + (bikes_[playerID]->GetHP() * HP_BAR_WIDTH) / Bike::MAX_HP, HP_BAR_HEIGHT, 0x00aeef, true); // HPバー
 
+}
+
+void GameScene::LoadIMG(void)
+{
+	std::string basePath = Application::PATH_IMAGE;
+
+	TshirtsWhite_ = LoadGraph((basePath + "TShirtsWhite.png").c_str());
+	TshirtsLow_ = LoadGraph((basePath + "TShirtsLow.png").c_str());
+	TshirtsMiddle_ = LoadGraph((basePath + "TShirtsMiddle.png").c_str());
+	TshirtsHigh_ = LoadGraph((basePath + "TShirtsHigh.png").c_str());
+	TshirtsMax_ = LoadGraph((basePath + "TShirtsCurry.png").c_str());
+}
+
+void GameScene::DrawTshirts(void)
+{
+
+	switch (dirtState_)
+	{
+	case DIRT_STATE::WHITE:
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsWhite_, true);
+	}
+	break;
+	case DIRT_STATE::LOW:
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsLow_, true);
+	}
+	break;
+	case DIRT_STATE::MIDDLE:
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsMiddle_, true);
+	}
+	break;
+	case DIRT_STATE::HIGH:
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsHigh_, true);
+	}
+	break;
+	case DIRT_STATE::MAX:
+	{
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.07, 0, TshirtsMax_, true);
+	}
+	break;
+	}
 }
