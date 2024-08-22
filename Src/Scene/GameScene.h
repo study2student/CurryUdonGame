@@ -49,6 +49,8 @@ public:
 
 
 private:
+#pragma region 連打ゲージ関連
+
 	// 連打数
 	int rash_;
 
@@ -70,8 +72,17 @@ private:
 	//ゲージの更新
 	void GaugeUpdate(void);
 
+	//ゲージの下限と上限
+	void GaugeLimit(void);
+
+	//連打数処理
+	void RashUpdate(void);
 	//ゲージの描画
 	void DrawGauge(void);
+
+#pragma endregion
+
+#pragma region 描画関係
 
 	//Tシャツの画像
 	int Tshirts_;
@@ -104,5 +115,8 @@ private:
 
 	//うどんの描画
 	void DrawUdon(void);
+#pragma endregion
+
+
 };
 

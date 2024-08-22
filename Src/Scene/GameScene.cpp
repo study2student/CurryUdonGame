@@ -15,14 +15,17 @@ GameScene::~GameScene(void)
 void GameScene::Init(void)
 {
 	std::string basePath = Application::PATH_IMAGE;
+	std::string fontPath = Application::PATH_FONT;
 
 	//連打数
-	rash_ = 0; 
+	rash_ = 0;
 	//時間
 	time_ = 15.0f;
 	//ゲージの長さ
 	gaugeLen_ = 0.0f;
 
+	//ゲージ最大になった時のクールタイムフラグ
+	isCool_ = false;
 
 	LoadIMG();
 
@@ -44,22 +47,11 @@ void GameScene::Init(void)
 
 void GameScene::Update(void)
 {
-	//InputManager& ins = InputManager::GetInstance();
-	//if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
-	//{
-	//	SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
-	//}
-
-	////ゲージがマックスになったら連打できないようにする
-	//if (gaugeLen_ <= GAUGE_MAX)
-	//{
-	//	if (ins.IsTrgDown(KEY_INPUT_RETURN))
-	//	{
-	//		rash_++;
-	//		gaugeLen_ ++;
-	//	}
-	//}
-
+	InputManager& ins = InputManager::GetInstance();
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+	}
 	//連打数によってTシャツが変わるように
 	if (rash_ >= 10)
 	{
@@ -108,14 +100,11 @@ void GameScene::Update(void)
 
 void GameScene::Draw(void)
 {
+	int font = CreateFontToHandle("Gill Sans MT", 30, 8, DX_FONTTYPE_EDGE);
+	SetFontSize(40);
+	ChangeFont("Paintball_Beta", DX_CHARSET_DEFAULT);
 	DrawFormatString(100, 100, 0xff0000, "Game");
-	DrawFormatString(300, 300, 0xff0000, "ENTER:%d", rash_);
 
-	//時間
-	DrawFormatString(300, 200, 0xff0000, "TIME:%.f", time_);
-
-	//test
-	DrawString(50, 50, "test", 0x000000);
 
 	//tシャツの描画
 	DrawTshirts();
@@ -125,45 +114,40 @@ void GameScene::Draw(void)
 
 	//うどんの描画
 	DrawUdon();
+
+	//時間
+	DrawFormatString(10, 10, 0xff0000, "TIME:%.f", time_);
+
+	DrawFormatString(10, 70, 0xff0000, "ENTER:%d", rash_);
+
+	
 }
 
 void GameScene::Release(void)
 {
+
 }
 
 void GameScene::GaugeUpdate(void)
 {
 	InputManager& ins = InputManager::GetInstance();
-
+	GaugeLimit();
 	//割合を計算する
 	gaugePercent_ = gaugeLen_ / RUSHGAUGE_MAX;
-	if (gaugePercent_ >= PERCENT_MAX)
-	{
-		gaugePercent_ = PERCENT_MAX;
-		gaugeLen_ = RUSHGAUGE_MAX;
-	}
-	if (gaugePercent_ < 0.0f)
-	{
-		gaugePercent_ = 0.0f;
-		gaugeLen_ = 0.0f;
-	}
-	if (gaugePercent_ >= 0.0f&&pushStopCnt_>= PUSH_STOP_MAX)
+	
+	if (gaugePercent_ > 0.0f&&pushStopCnt_>= PUSH_STOP_MAX)
 	{
 		gaugeLen_ -= GAUGE_DECREASE;
 	}
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
-	{
-		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
-	}
+	
 
 	//ゲージがマックスになったら連打できないようにする
 	if (gaugePercent_ <= PERCENT_MAX)
 	{
-		if (ins.IsTrgDown(KEY_INPUT_RETURN) && gaugePercent_ < PERCENT_MAX)
+		if (ins.IsTrgDown(KEY_INPUT_RETURN))
 		{
-			rash_++;
-			gaugeLen_++;
-			pushStopCnt_ = 0;
+			RashUpdate();
+			
 		}
 		else
 		{
@@ -175,6 +159,17 @@ void GameScene::GaugeUpdate(void)
 
 }
 
+void GameScene::RashUpdate(void)
+{
+	if (!isCool_)
+	{
+		rash_++;
+		gaugeLen_++;
+		pushStopCnt_ = 0;
+	}
+	
+}
+
 void GameScene::DrawGauge(void)
 {
 	// ゲージの座標,幅
@@ -182,22 +177,43 @@ void GameScene::DrawGauge(void)
 	VECTOR h = { g.x + 50, g.y + GAUGE_MAX };
 
 	//DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * GAUGE_INC)/ GAUGE_MAX, 0xff0000, true);
+
+
 	DrawBox(g.x, h.y, h.x, h.y - gaugePercent_ * GAUGE_MAX, 0xff0000, true);
-	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false, 5
-	);
-	
+
+
+	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false, 8);
 
 
 
 
-	DrawFormatString(0, 0, 0x000000, "Percent(%f)", gaugePercent_);
 
-
-
-
-	
 	//DrawBox(sc_x, sc_y, sc_x + (bikes_[playerID]->GetHP() * HP_BAR_WIDTH) / Bike::MAX_HP, HP_BAR_HEIGHT, 0x00aeef, true); // HPバー
 
+}
+
+void GameScene::GaugeLimit(void)
+{
+	//ゲージ上限
+	if (gaugePercent_ > PERCENT_MAX)
+	{
+		gaugePercent_ = PERCENT_MAX;
+		gaugeLen_ = RUSHGAUGE_MAX;
+	}
+	if (gaugePercent_ >= PERCENT_MAX)
+	{
+		isCool_ = true;
+	}
+	//ゲージ下限
+	else if (gaugePercent_ < 0.0f)
+	{
+		gaugePercent_ = 0.0f;
+		gaugeLen_ = 0.0f;
+	}
+	if (gaugePercent_ <= 0.0f)
+	{
+		isCool_ = false;
+	}
 }
 
 void GameScene::LoadIMG(void)

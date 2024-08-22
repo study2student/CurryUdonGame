@@ -17,6 +17,7 @@ public:
 	// データパス関連
 	//-------------------------------------------
 	static const std::string PATH_IMAGE;
+	static const std::string PATH_FONT;
 	static const std::string PATH_MODEL;
 	static const std::string PATH_EFFECT;
 	//-------------------------------------------
