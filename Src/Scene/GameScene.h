@@ -16,6 +16,15 @@ public:
 	//連打ストップカウントマックス
 	static constexpr int PUSH_STOP_MAX = 60;
 
+	//スタートと終了画像の縮小値
+	static constexpr float START_END_REDUCTION = 0.1f;
+
+	//UIの縮小値
+	static constexpr float UI_REDUCTION = 0.05f;
+
+	//画像サイズ
+	static constexpr VECTOR IMAGE_SIZE_ = { 4096,3072 };
+
 
 	// Tシャツの汚れ状態
 	enum  class DIRT_STATE
@@ -81,6 +90,29 @@ private:
 	void DrawGauge(void);
 
 #pragma endregion
+#pragma region UI
+	//スコアの背景
+	int backScore_;
+
+	//残り時間画像
+	int timeImg_;
+
+	//スタート画像
+	int startImg_;
+
+	//終わり画像
+	int endImg_;
+
+	//UI画像のロード
+	void LoadUI(void);
+
+	//UI画像の描画
+	void DrawUI(void);
+
+	//UI更新処理
+	void UIUpdate(void);
+#pragma endregion
+
 
 #pragma region 描画関係
 

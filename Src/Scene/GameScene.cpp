@@ -33,6 +33,8 @@ void GameScene::Init(void)
 	//ゲージ最大になった時のクールタイムフラグ
 	isCool_ = false;
 
+	LoadUI();
+
 	LoadIMG();
 
 	dirtState_ = DIRT_STATE::WHITE;
@@ -114,6 +116,7 @@ void GameScene::Draw(void)
 	SetFontSize(40);
 	ChangeFont("Paintball_Beta", DX_CHARSET_DEFAULT);
 	DrawFormatString(100, 100, 0xff0000, "Game");
+	DrawUI();
 
 
 	//時間
@@ -214,6 +217,34 @@ void GameScene::DrawGauge(void)
 
 	//DrawBox(sc_x, sc_y, sc_x + (bikes_[playerID]->GetHP() * HP_BAR_WIDTH) / Bike::MAX_HP, HP_BAR_HEIGHT, 0x00aeef, true); // HPバー
 
+}
+
+void GameScene::LoadUI(void)
+{
+	//スコア背景
+	backScore_ = LoadGraph((basePath + "rash.png").c_str());
+
+	//時間画像
+	timeImg_ = LoadGraph((basePath + "Time.png").c_str());
+
+	//スタート画像
+	startImg_ = LoadGraph((basePath + "Count.png").c_str());
+
+	//終わり画像
+	endImg_ = LoadGraph((basePath + "End.png").c_str());
+}
+
+void GameScene::DrawUI(void)
+{
+	DrawRotaGraph(Application::SCREEN_SIZE_X-100, 100, UI_REDUCTION, 0.0f, backScore_, true);
+
+	DrawRotaGraph(Application::SCREEN_SIZE_X - 100, 300, UI_REDUCTION, 0.0f, timeImg_, true);
+
+	DrawRotaGraph(Application::SCREEN_SIZE_X - 100, 300, START_END_REDUCTION, 0.0f, startImg_, true);
+}
+
+void GameScene::UIUpdate(void)
+{
 }
 
 void GameScene::GaugeLimit(void)
