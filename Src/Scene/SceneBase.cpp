@@ -1,6 +1,7 @@
+#include"../Score/Rash.h"
 #include "SceneBase.h"
 
-SceneBase::SceneBase(void)
+SceneBase::SceneBase(void) : rash_(Rash::GetInstance())
 {
 }
 

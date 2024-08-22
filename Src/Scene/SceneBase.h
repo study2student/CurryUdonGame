@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+class Rash;
 
 class SceneBase
 {
@@ -24,7 +25,8 @@ public:
 	// ‰ğ•úˆ—
 	virtual void Release(void);
 protected:
-
+	//ƒXƒRƒA”
+	Rash& rash_;
 };
 
 

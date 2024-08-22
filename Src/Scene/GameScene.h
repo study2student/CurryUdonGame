@@ -52,7 +52,7 @@ private:
 #pragma region 連打ゲージ関連
 
 	// 連打数
-	int rash_;
+	//int rash_;
 
 	//時間
 	float time_;

@@ -15,7 +15,8 @@ public:
 	{
 		NONE,
 		TITLE,
-		GAME
+		GAME,
+		RESULT
 	};
 
 	// インスタンスの生成

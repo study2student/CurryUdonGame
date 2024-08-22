@@ -1,8 +1,11 @@
 #include <DxLib.h>
 #include "../Application.h"
+#include "../Score/Rash.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "GameScene.h"
+
+std::string basePath = Application::PATH_IMAGE;
 
 GameScene::GameScene(void)
 {
@@ -14,11 +17,18 @@ GameScene::~GameScene(void)
 
 void GameScene::Init(void)
 {
+<<<<<<< Updated upstream
 	std::string basePath = Application::PATH_IMAGE;
 	std::string fontPath = Application::PATH_FONT;
 
 	//連打数
 	rash_ = 0;
+=======
+	
+
+	//スコアのリセット
+	rash_.ResetScore();
+>>>>>>> Stashed changes
 	//時間
 	time_ = 15.0f;
 	//ゲージの長さ
@@ -46,6 +56,9 @@ void GameScene::Init(void)
 	// 箸の絵
 	sticksIMG_ = LoadGraph((basePath + "ChopSticks.png").c_str());
 	sticksPos_ = { Application::SCREEN_SIZE_X / 2 + 150,Application::SCREEN_SIZE_Y };
+
+	//スコアのリセット
+	rash_.ResetScore();
 }
 
 void GameScene::Update(void)
@@ -56,19 +69,19 @@ void GameScene::Update(void)
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 	//連打数によってTシャツが変わるように
-	if (rash_ >= 10)
+	if (rash_.GetScore() >= 10)
 	{
 		dirtState_ = DIRT_STATE::LOW;
 	}
-	if (rash_ >= 30)
+	if (rash_.GetScore() >= 30)
 	{
 		dirtState_ = DIRT_STATE::MIDDLE;
 	}
-	if (rash_ >= 50)
+	if (rash_.GetScore() >= 50)
 	{
 		dirtState_ = DIRT_STATE::HIGH;
 	}
-	if (rash_ >= 70)
+	if (rash_.GetScore() >= 70)
 	{
 		dirtState_ = DIRT_STATE::MAX;
 	}
@@ -105,6 +118,15 @@ void GameScene::Draw(void)
 	SetFontSize(40);
 	ChangeFont("Paintball_Beta", DX_CHARSET_DEFAULT);
 	DrawFormatString(100, 100, 0xff0000, "Game");
+<<<<<<< Updated upstream
+=======
+
+	//時間
+	DrawFormatString(300, 200, 0xff0000, "TIME:%.f", time_);
+
+	//test
+	DrawString(50, 50, "test", 0x000000);
+>>>>>>> Stashed changes
 
 	//tシャツの描画
 	DrawTshirts();
@@ -115,12 +137,17 @@ void GameScene::Draw(void)
 	//うどんの描画
 	DrawUdon();
 
+<<<<<<< Updated upstream
 	//時間
 	DrawFormatString(10, 10, 0xff0000, "TIME:%.f", time_);
 
 	DrawFormatString(10, 70, 0xff0000, "ENTER:%d", rash_);
 
 	
+=======
+	DrawFormatString(300, 0, 0xff0000, "ENTER:%d", rash_.GetScore());
+
+>>>>>>> Stashed changes
 }
 
 void GameScene::Release(void)
@@ -139,15 +166,28 @@ void GameScene::GaugeUpdate(void)
 	{
 		gaugeLen_ -= GAUGE_DECREASE;
 	}
+<<<<<<< Updated upstream
 	
+=======
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
+	}
+>>>>>>> Stashed changes
 
 	//ゲージがマックスになったら連打できないようにする
 	if (gaugePercent_ <= PERCENT_MAX)
 	{
 		if (ins.IsTrgDown(KEY_INPUT_RETURN))
 		{
+<<<<<<< Updated upstream
 			RashUpdate();
 			
+=======
+			rash_.AddScore(1);
+			gaugeLen_++;
+			pushStopCnt_ = 0;
+>>>>>>> Stashed changes
 		}
 		else
 		{
@@ -218,7 +258,6 @@ void GameScene::GaugeLimit(void)
 
 void GameScene::LoadIMG(void)
 {
-	std::string basePath = Application::PATH_IMAGE;
 
 	TshirtsWhite_ = LoadGraph((basePath + "TShirtsWhite.png").c_str());
 	TshirtsLow_ = LoadGraph((basePath + "TShirtsLow.png").c_str());
@@ -263,7 +302,7 @@ void GameScene::DrawTshirts(void)
 void GameScene::DrawUdon(void)
 {
 	//うどんの描画
-	if (rash_ <= 70)
+	if (rash_.GetScore() <= 70)
 	{
 		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 + 200, 0.4, 0, UdonIMG_, true);
 	}
@@ -275,7 +314,7 @@ void GameScene::DrawUdon(void)
 	DrawRotaGraphFast(noodlePos_.x, noodlePos_.y, 0.18, 0, noodleIMG_, true);
 	//for (int i = 0; i <= 500; i += 10)
 	//{
-	//	DrawExtendGraph(noodlePos_.x / 2, noodlePos_.y / 2, noodlePos_.x + (noodlePos_.x / 2), noodlePos_.y - i, noodleIMG_, true);
+	//	DrawExtendGraph(noodlePos_.x / 2, noodlePos_.y / 2, noodlePos_.x + (noodlePos_.x / 2), noodlePos_.y, noodleIMG_, true);
 	//}
 	DrawRotaGraphFast(sticksPos_.x, sticksPos_.y, 0.1, 0, sticksIMG_, true);
 }
