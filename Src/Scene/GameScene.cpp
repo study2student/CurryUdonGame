@@ -20,14 +20,24 @@ void GameScene::Init(void)
 	time_ = 15.0f;
 	//ゲージの長さ
 	gaugeLen_ = 0.0f;
+<<<<<<< Updated upstream
 
 	LoadIMG();
 
 	dirtState_ = DIRT_STATE::WHITE;
+=======
+	//ゲージ割合
+	gaugePercent_ = 0.0f;
+
+	//クール中フラグ
+	isCool_ = false;
+
+>>>>>>> Stashed changes
 }
 
 void GameScene::Update(void)
 {
+<<<<<<< Updated upstream
 	InputManager& ins = InputManager::GetInstance();
 	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
 	{
@@ -62,6 +72,10 @@ void GameScene::Update(void)
 		dirtState_ = DIRT_STATE::MAX;
 	}
 
+=======
+	GaugeUpdate();
+	
+>>>>>>> Stashed changes
 	//時間を減らす
 	if (time_ <= 0.0f)
 	{
@@ -96,14 +110,50 @@ void GameScene::Release(void)
 {
 }
 
+void GameScene::GaugeUpdate(void)
+{
+	InputManager& ins = InputManager::GetInstance();
+
+	//割合を計算する
+	gaugePercent_ = gaugeLen_ / RUSHGAUGE_MAX;
+	if (gaugePercent_ >= 0.0f)
+	{
+		gaugeLen_ -= GAUGE_DECREASE;
+	}
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+	}
+
+	//ゲージがマックスになったら連打できないようにする
+	if (gaugePercent_ < PERCENT_MAX)
+	{
+		if (ins.IsTrgDown(KEY_INPUT_RETURN) && gaugeLen_ <= GAUGE_MAX)
+		{
+			rash_++;
+			gaugeLen_++;
+		}
+	}
+	else
+	{
+		isCool_ = true;
+	}
+
+
+
+}
+
 void GameScene::DrawGauge(void)
 {
 	// ゲージの座標,幅
 	VECTOR g = { 200,100 };
 	VECTOR h = { g.x + 50, g.y + GAUGE_MAX };
 
-	DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * GAUGE_INC)/ GAUGE_MAX, 0xff0000, true);
-	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false,10);
+	//DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * GAUGE_INC)/ GAUGE_MAX, 0xff0000, true);
+	DrawBox(g.x, h.y, h.x, h.y - gaugePercent_*GAUGE_MAX, 0xff0000, true);
+	DrawBoxAA(g.x, g.y, h.x, h.y, 0xffffff, false, 5
+	);
+	
 	//DrawBox(sc_x, sc_y, sc_x + (bikes_[playerID]->GetHP() * HP_BAR_WIDTH) / Bike::MAX_HP, HP_BAR_HEIGHT, 0x00aeef, true); // HPバー
 
 }

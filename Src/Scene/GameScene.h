@@ -13,6 +13,7 @@ public:
 	//ゲージの上がり幅
 	static constexpr float GAUGE_INC = 1000.0f;
 
+<<<<<<< Updated upstream
 	// Tシャツの汚れ状態
 	enum  class DIRT_STATE
 	{
@@ -23,6 +24,16 @@ public:
 		HIGH,
 		MAX
 	};
+=======
+	//何連打でマックスになるか
+	static constexpr int RUSHGAUGE_MAX = 30;
+
+	//割合の最大値
+	static constexpr float PERCENT_MAX = 1.0f;
+
+	//ゲージの下がり幅
+	static constexpr float GAUGE_DECREASE =0.05f;
+>>>>>>> Stashed changes
 
 	// コンストラクタ
 	GameScene(void);
@@ -46,9 +57,19 @@ private:
 	//ゲージの長さ
 	float gaugeLen_;
 
+	//ゲージの割合
+	float gaugePercent_;
+
+	//マックスになった時のクールタイム
+	bool isCool_;
+
+	//ゲージの更新
+	void GaugeUpdate(void);
+
 	//ゲージの描画
 	void DrawGauge(void);
 
+<<<<<<< Updated upstream
 	//Tシャツの画像
 	int Tshirts_;
 	int TshirtsWhite_;
@@ -66,5 +87,7 @@ private:
 
 	//Tshirts描画
 	void DrawTshirts(void);
+=======
+>>>>>>> Stashed changes
 };
 
