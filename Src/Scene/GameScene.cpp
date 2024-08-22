@@ -20,39 +20,36 @@ void GameScene::Init(void)
 	time_ = 15.0f;
 	//ゲージの長さ
 	gaugeLen_ = 0.0f;
-<<<<<<< Updated upstream
+
 
 	LoadIMG();
 
 	dirtState_ = DIRT_STATE::WHITE;
-=======
+
 	//ゲージ割合
 	gaugePercent_ = 0.0f;
 
 	//クール中フラグ
 	isCool_ = false;
-
->>>>>>> Stashed changes
 }
 
 void GameScene::Update(void)
 {
-<<<<<<< Updated upstream
-	InputManager& ins = InputManager::GetInstance();
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
-	{
-		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
-	}
+	//InputManager& ins = InputManager::GetInstance();
+	//if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
+	//{
+	//	SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+	//}
 
-	//ゲージがマックスになったら連打できないようにする
-	if (gaugeLen_ <= GAUGE_MAX)
-	{
-		if (ins.IsTrgDown(KEY_INPUT_RETURN))
-		{
-			rash_++;
-			gaugeLen_ ++;
-		}
-	}
+	////ゲージがマックスになったら連打できないようにする
+	//if (gaugeLen_ <= GAUGE_MAX)
+	//{
+	//	if (ins.IsTrgDown(KEY_INPUT_RETURN))
+	//	{
+	//		rash_++;
+	//		gaugeLen_ ++;
+	//	}
+	//}
 
 	//連打数によってTシャツが変わるように
 	if (rash_ >= 10)
@@ -72,10 +69,9 @@ void GameScene::Update(void)
 		dirtState_ = DIRT_STATE::MAX;
 	}
 
-=======
 	GaugeUpdate();
 	
->>>>>>> Stashed changes
+
 	//時間を減らす
 	if (time_ <= 0.0f)
 	{
