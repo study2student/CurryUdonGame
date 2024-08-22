@@ -104,5 +104,9 @@ private:
 
 	//‚¤‚Ç‚ñ‚Ì•`‰æ
 	void DrawUdon(void);
+
+	// ”¢‚ÌŠG,À•W
+	int sticksIMG_;
+	VECTOR sticksPos_;
 };
 

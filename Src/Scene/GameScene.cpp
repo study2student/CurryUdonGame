@@ -38,8 +38,11 @@ void GameScene::Init(void)
 	UdonIMG_ = LoadGraph((basePath + "UdonMax.png").c_str());
 	UdonNullIMG_ = LoadGraph((basePath + "UdonNull.png").c_str());
 	noodleIMG_ = LoadGraph((basePath + "Udon1.png").c_str());
-
 	noodlePos_ = { Application::SCREEN_SIZE_X / 2,Application::SCREEN_SIZE_Y };
+
+	// î¢ÇÃäG
+	sticksIMG_ = LoadGraph((basePath + "ChopSticks.png").c_str());
+	sticksPos_ = { Application::SCREEN_SIZE_X / 2 + 150,Application::SCREEN_SIZE_Y };
 }
 
 void GameScene::Update(void)
@@ -93,23 +96,21 @@ void GameScene::Update(void)
 
 
 	//Ç§Ç«ÇÒÇÃmennÇÃç¿ïWÇâ¬ïœ
-	for (int i = 0; i < 3; i++)
-	{
-		noodlePos_.y += 10;
-	}
 
-	noodlePos_.y -= 50;
+	noodlePos_.y -= 20;
+	sticksPos_.y -= 20;
 
 	if (noodlePos_.y <= -384)
 	{
 		noodlePos_.y = Application::SCREEN_SIZE_Y;
+		sticksPos_.y = Application::SCREEN_SIZE_Y;
 	}
 }
 
 void GameScene::Draw(void)
 {
 	DrawFormatString(100, 100, 0xff0000, "Game");
-	DrawFormatString(300, 300, 0xff0000, "ENTER:%d", rash_);
+	DrawFormatString(300, 0, 0xff0000, "ENTER:%d", rash_);
 
 	//éûä‘
 	DrawFormatString(300, 200, 0xff0000, "TIME:%.f", time_);
@@ -129,6 +130,7 @@ void GameScene::Draw(void)
 
 void GameScene::Release(void)
 {
+	DeleteGraph(noodleIMG_);
 }
 
 void GameScene::GaugeUpdate(void)
@@ -218,27 +220,27 @@ void GameScene::DrawTshirts(void)
 	{
 	case DIRT_STATE::WHITE:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsWhite_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsWhite_, true);
 	}
 	break;
 	case DIRT_STATE::LOW:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsLow_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsLow_, true);
 	}
 	break;
 	case DIRT_STATE::MIDDLE:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsMiddle_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsMiddle_, true);
 	}
 	break;
 	case DIRT_STATE::HIGH:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsHigh_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsHigh_, true);
 	}
 	break;
 	case DIRT_STATE::MAX:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, 0.2, 0, TshirtsMax_, true);
+		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsMax_, true);
 	}
 	break;
 	}
@@ -256,6 +258,10 @@ void GameScene::DrawUdon(void)
 		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 + 200, 0.4, 0, UdonNullIMG_, true);
 	}
 	//Ç§Ç«ÇÒÇÃmennÇÃï`âÊ
-	DrawRotaGraphFast(noodlePos_.x, noodlePos_.y, 0.25, 0, noodleIMG_, true);
-
+	DrawRotaGraphFast(noodlePos_.x, noodlePos_.y, 0.18, 0, noodleIMG_, true);
+	//for (int i = 0; i <= 500; i += 10)
+	//{
+	//	DrawExtendGraph(noodlePos_.x / 2, noodlePos_.y / 2, noodlePos_.x + (noodlePos_.x / 2), noodlePos_.y - i, noodleIMG_, true);
+	//}
+	DrawRotaGraphFast(sticksPos_.x, sticksPos_.y, 0.1, 0, sticksIMG_, true);
 }
