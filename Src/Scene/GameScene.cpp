@@ -55,6 +55,10 @@ void GameScene::Draw(void)
 	//éûä‘
 	DrawFormatString(300, 200, 0xff0000, "TIME:%f", time_);
 
+	//test
+	DrawString(50, 50, "test", 0x000000);
+
+
 	// ÉQÅ[ÉWï`âÊ
 	DrawGauge();
 }
