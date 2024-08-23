@@ -22,14 +22,22 @@ void ResultScene::Init(void)
 
 void ResultScene::Update(void)
 {
+	InputManager& ins = InputManager::GetInstance();
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
+	}
 }
 
 void ResultScene::Draw(void)
 {
-	DrawGraph(0, 0, resultImg_, true);
-	DrawFormatString(300, 300, 0xff0000, "rash:%d", rash_.GetScore());
+	//DrawGraph(0, 0, resultImg_, true);
+	DrawExtendGraph(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, resultImg_, true);
+	//DrawFormatString(300, 300, 0xff0000, "rash:%d", rash_.GetScore());
+	DrawExtendFormatString(200, 100, 12, 12, 0xff0000, "%d", rash_.GetScore());
 }
 
 void ResultScene::Release(void)
 {
+	DeleteGraph(resultImg_);
 }
