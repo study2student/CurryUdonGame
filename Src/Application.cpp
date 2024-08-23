@@ -89,7 +89,7 @@ void Application::Run(void)
 			CalcFrameRate();
 
 			// フレームレート表示
-			DrawFrameRate();
+			//DrawFrameRate();
 
 			ScreenFlip();
 		}

@@ -58,7 +58,7 @@ void GameScene::Init(void)
 	// ゲームスタート時のカウント
 	startCount_ = 3.0f;
 	isStart_ = false;
-	imgCount_ = 0.5f;
+	imgCount_ = 1.0f;
 	isImg_ = false;
 
 	//スコアのリセット
@@ -142,16 +142,8 @@ void GameScene::Draw(void)
 	int font = CreateFontToHandle("Gill Sans MT", 30, 8, DX_FONTTYPE_EDGE);
 	SetFontSize(40);
 	ChangeFont("Paintball_Beta", DX_CHARSET_DEFAULT);
-	DrawFormatString(100, 100, 0xff0000, "Game");
+	
 	DrawUI();
-
-
-	//時間
-	DrawFormatString(300, 200, 0xff0000, "TIME:%.f", time_);
-
-	//test
-	DrawString(50, 50, "test", 0x000000);
-
 
 	//tシャツの描画
 	DrawTshirts();
@@ -161,12 +153,6 @@ void GameScene::Draw(void)
 
 	//うどんの描画
 	DrawUdon();
-
-
-	//時間
-	DrawFormatString(10, 10, 0xff0000, "TIME:%.f", time_);
-
-	DrawFormatString(300, 0, 0xff0000, "ENTER:%d", rash_.GetScore());
 
 	// スタート時のカウントを減らす
 	if (startCount_ > 0.0f)
@@ -204,12 +190,6 @@ void GameScene::GaugeUpdate(void)
 	{
 		gaugeLen_ -= GAUGE_DECREASE;
 	}
-
-	//if (ins.IsTrgDown(KEY_INPUT_RETURN) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
-	//	|| time_ == 0.0f)
-	//{
-	//	SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
-	//}
 
 
 	//ゲージがマックスになったら連打できないようにする
@@ -267,7 +247,7 @@ void GameScene::DrawGauge(void)
 void GameScene::LoadUI(void)
 {
 	//スコア背景
-	backScore_ = LoadGraph((basePath + "rash.png").c_str());
+	backScore_ = LoadGraph((basePath + "ヨゴレド.png").c_str());
 
 	//時間画像
 	timeImg_ = LoadGraph((basePath + "Time.png").c_str());
@@ -281,11 +261,17 @@ void GameScene::LoadUI(void)
 
 void GameScene::DrawUI(void)
 {
-	DrawRotaGraph(Application::SCREEN_SIZE_X-100, 100, UI_REDUCTION, 0.0f, backScore_, true);
+	//スコア描画
+	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.15, 0.0f, backScore_, true);
+	if (!(rash_.GetScore() == 0))
+	{
+		DrawExtendFormatString(Application::SCREEN_SIZE_X / 2 - GetDrawFormatStringWidth("%d") / 2 - 80, Application::SCREEN_SIZE_Y / 2 - GetDrawFormatStringWidth("%d") / 2, 5, 5, 0xff0000, "%d", rash_.GetScore());
+	}
 
-	DrawRotaGraph(Application::SCREEN_SIZE_X - 100, 300, UI_REDUCTION, 0.0f, timeImg_, true);
+	//残り時間
+	DrawExtendGraph(0, 0, 250, 300, timeImg_, true);
+	DrawExtendFormatString(40, 80, 2.2, 2.2, 0xff0000, "%.f", time_);
 
-	DrawRotaGraph(Application::SCREEN_SIZE_X - 100, 300, START_END_REDUCTION, 0.0f, startImg_, true);
 }
 
 void GameScene::UIUpdate(void)
@@ -329,31 +315,33 @@ void GameScene::LoadIMG(void)
 void GameScene::DrawTshirts(void)
 {
 
+	Vector2 pos = { Application::SCREEN_SIZE_X - 100, 100 };
+
 	switch (dirtState_)
 	{
 	case DIRT_STATE::WHITE:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsWhite_, true);
+		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsWhite_, true);
 	}
 	break;
 	case DIRT_STATE::LOW:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsLow_, true);
+		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsLow_, true);
 	}
 	break;
 	case DIRT_STATE::MIDDLE:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsMiddle_, true);
+		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMiddle_, true);
 	}
 	break;
 	case DIRT_STATE::HIGH:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsHigh_, true);
+		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsHigh_, true);
 	}
 	break;
 	case DIRT_STATE::MAX:
 	{
-		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.2, 0, TshirtsMax_, true);
+		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMax_, true);
 	}
 	break;
 	}
