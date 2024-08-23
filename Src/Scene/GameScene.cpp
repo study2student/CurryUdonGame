@@ -73,48 +73,6 @@ void GameScene::Update(void)
 	{
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
-<<<<<<< Updated upstream
-
-
-	// スタート時のカウントダウンを減らす
-	if (startCount_ >= 0.0f)
-	{
-		startCount_ -= SceneManager::GetInstance().GetDeltaTime();
-	}
-
-	if (isImg_ == true)
-	{
-		if (imgCount_ >= 0.0f)
-		{
-			imgCount_ -= SceneManager::GetInstance().GetDeltaTime();
-		}
-	}
-
-	
-	if (imgCount_ <= 0.0f)
-	{
-		//連打数によってTシャツが変わるように
-		if (rash_.GetScore() >= 10)
-		{
-			dirtState_ = DIRT_STATE::LOW;
-		}
-		if (rash_.GetScore() >= 30)
-		{
-			dirtState_ = DIRT_STATE::MIDDLE;
-		}
-		if (rash_.GetScore() >= 50)
-		{
-			dirtState_ = DIRT_STATE::HIGH;
-		}
-		if (rash_.GetScore() >= 70)
-		{
-			dirtState_ = DIRT_STATE::MAX;
-		}
-
-		GaugeUpdate();
-
-
-=======
 
 
 	// スタート時のカウントダウンを減らす
@@ -154,8 +112,6 @@ void GameScene::Update(void)
 
 		GaugeUpdate();
 
-
->>>>>>> Stashed changes
 		//時間を減らす
 		if (time_ <= 0.0f)
 		{
@@ -166,18 +122,16 @@ void GameScene::Update(void)
 			time_ -= 1 / 60.0f;
 		}
 
-
-<<<<<<< Updated upstream
 		//うどんのmennの座標を可変
 
 		noodlePos_.y -= 20;
 		sticksPos_.y -= 20;
 
-		if (noodlePos_.y <= -384)
-		{
-			noodlePos_.y = Application::SCREEN_SIZE_Y;
-			sticksPos_.y = Application::SCREEN_SIZE_Y;
-=======
+		//if (noodlePos_.y <= -384)
+		//{
+		//	noodlePos_.y = Application::SCREEN_SIZE_Y;
+		//	sticksPos_.y = Application::SCREEN_SIZE_Y;
+
 		if (noodlePos_.y <= -40)
 		{
 			noodlePos_.y = Application::SCREEN_SIZE_Y;
@@ -185,16 +139,14 @@ void GameScene::Update(void)
 
 			//うどんのmennの座標を可変
 
-			noodlePos_.y -= 20;
-			sticksPos_.y -= 20;
+			//noodlePos_.y -= 20;
+			//sticksPos_.y -= 20;
 
-			if (noodlePos_.y <= -384)
-			{
-				noodlePos_.y = Application::SCREEN_SIZE_Y;
-				sticksPos_.y = Application::SCREEN_SIZE_Y;
-			}
-
->>>>>>> Stashed changes
+			//if (noodlePos_.y <= -384)
+			//{
+			//	noodlePos_.y = Application::SCREEN_SIZE_Y;
+			//	sticksPos_.y = Application::SCREEN_SIZE_Y;
+			//}
 		}
 	}
 }
@@ -288,7 +240,7 @@ void GameScene::RashUpdate(void)
 void GameScene::DrawGauge(void)
 {
 	// ゲージの座標,幅
-	VECTOR g = { 50,150 };
+	VECTOR g = { 50,200 };
 	VECTOR h = { g.x + 50, g.y + GAUGE_MAX };
 
 	//DrawBox(g.x, h.y, h.x, h.y + (-gaugeLen_ * GAUGE_INC)/ GAUGE_MAX, 0xff0000, true);
@@ -324,7 +276,6 @@ void GameScene::LoadUI(void)
 
 void GameScene::DrawUI(void)
 {
-<<<<<<< Updated upstream
 	//スコア描画
 	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.15, 0.0f, backScore_, true);
 	if (!(rash_.GetScore() == 0))
@@ -333,28 +284,9 @@ void GameScene::DrawUI(void)
 	}
 
 	//残り時間
-	DrawExtendGraph(0, 0, 250, 300, timeImg_, true);
-	DrawExtendFormatString(40, 80, 2.2, 2.2, 0xff0000, "%.f", time_);
-=======
+	DrawExtendGraph(20, 0, 250, 360, timeImg_, true);
+	DrawExtendFormatString(5,80, 2.2, 2.2, 0xff0000, "%.1f", time_);
 
-	DrawRotaGraphFast(Application::SCREEN_SIZE_X-100, 100, UI_REDUCTION, 0.0f, backScore_, true);
-
-	DrawRotaGraphFast(Application::SCREEN_SIZE_X - 100, 300, UI_REDUCTION, 0.0f, timeImg_, true);
-
-	DrawRotaGraphFast(Application::SCREEN_SIZE_X - 100, 300, START_END_REDUCTION, 0.0f, startImg_, true);
-
-	//スコア描画
-	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.15, 0.0f, backScore_, true);
-	if (!(rash_.GetScore() == 0))
-	{
-		DrawExtendFormatString(Application::SCREEN_SIZE_X / 2 - GetDrawFormatStringWidth("%d") / 2 - 80, Application::SCREEN_SIZE_Y / 2 - GetDrawFormatStringWidth("%d") / 2, 5, 5, 0xff0000, "%d", rash_.GetScore());
-	}
-
-	//残り時間
-	DrawExtendGraph(0, 0, 250, 300, timeImg_, true);
-	DrawExtendFormatString(40, 80, 2.2, 2.2, 0xff0000, "%.f", time_);
-
->>>>>>> Stashed changes
 
 }
 

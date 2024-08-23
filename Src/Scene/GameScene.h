@@ -8,7 +8,7 @@ public:
 	static constexpr int SCORE_MAX = 120;
 
 	//ゲージマックス
-	static constexpr int GAUGE_MAX = 300;
+	static constexpr int GAUGE_MAX = 250;
 
 	//ゲージの上がり幅
 	static constexpr float GAUGE_INC = 1000.0f;
