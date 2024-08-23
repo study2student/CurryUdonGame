@@ -16,5 +16,7 @@ public:
 private:
 	//ƒŠƒUƒ‹ƒgŠG
 	int resultImg_;
+	int frame_;
+	int goTitle_;
 };
 

@@ -1,7 +1,8 @@
 #include"../Score/Rash.h"
+#include"../Score/TshirtsState.h"
 #include "SceneBase.h"
 
-SceneBase::SceneBase(void) : rash_(Rash::GetInstance())
+SceneBase::SceneBase(void) : rash_(Rash::GetInstance()), tState_(TshirtsState::GetInstance())
 {
 }
 

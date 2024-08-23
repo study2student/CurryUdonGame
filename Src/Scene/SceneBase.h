@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 class Rash;
+class TshirtsState;
 
 class SceneBase
 {
@@ -27,6 +28,8 @@ public:
 protected:
 	//ÉXÉRÉAêî
 	Rash& rash_;
+
+	TshirtsState& tState_;
 };
 
 

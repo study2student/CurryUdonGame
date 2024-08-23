@@ -3,6 +3,7 @@
 #include "Manager/InputManager.h"
 #include "Manager/SceneManager.h"
 #include "Score/Rash.h"
+#include "Score/TshirtsState.h"
 #include "Application.h"
 
 Application* Application::instance_ = nullptr;
@@ -53,6 +54,8 @@ void Application::Init(void)
 
 	// スコアの初期化
 	Rash::CreateInstance();
+
+	TshirtsState::CreateInstance();
 
 	// シーン管理初期化
 	SceneManager::CreateInstance();

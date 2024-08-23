@@ -21,6 +21,9 @@ private:
 	int title_;
 	//遊び方画像
 	int tutorial_;
+	//クレジット
+	int credit_;
+
 };
 
 

@@ -16,7 +16,8 @@ void TitleScene::Init(void)
 {
 	std::string basePath = Application::PATH_IMAGE;
 	title_ = LoadGraph((basePath + "Title.png").c_str());
-	tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
+	//tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
+	credit_ = LoadGraph((basePath + "Credit1.jpeg").c_str());
 }
 
 void TitleScene::Update(void)
@@ -33,6 +34,10 @@ void TitleScene::Draw(void)
 	DrawFormatString(100, 100, 0xff0000, "Title");
 	DrawExtendGraph(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, title_, true);
 	DrawExtendGraph(Application::SCREEN_SIZE_X / 2, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, tutorial_, true);
+
+	//クレジット
+	DrawExtendGraph(10, Application::SCREEN_SIZE_Y / 2, Application::SCREEN_SIZE_X / 2-10, Application::SCREEN_SIZE_Y-10, credit_, true);
+	
 }
 
 void TitleScene::Release(void)

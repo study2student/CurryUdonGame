@@ -31,6 +31,7 @@
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
     <ClCompile Include="Src\Scene\TitleScene.cpp" />
     <ClCompile Include="Src\Score\Rash.cpp" />
+    <ClCompile Include="Src\Score\TshirtsState.cpp" />
     <ClCompile Include="Src\Utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +47,7 @@
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
     <ClInclude Include="Src\Score\Rash.h" />
+    <ClInclude Include="Src\Score\TshirtsState.h" />
     <ClInclude Include="Src\Utility\Utility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

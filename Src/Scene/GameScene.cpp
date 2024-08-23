@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "../Application.h"
 #include "../Score/Rash.h"
+#include "../Score/TshirtsState.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
 #include "GameScene.h"
@@ -25,6 +26,8 @@ void GameScene::Init(void)
 	//スコアのリセット
 	rash_.ResetScore();
 
+	tState_.ResetState();
+
 	//時間
 	time_ = 15.0f;
 	//ゲージの長さ
@@ -36,8 +39,10 @@ void GameScene::Init(void)
 	LoadUI();
 
 	LoadIMG();
+	tState_.LoadIMG();
 
-	dirtState_ = DIRT_STATE::WHITE;
+	//dirtState_ = DIRT_STATE::WHITE;
+	tState_.StateSet(TshirtsState::DIRT_STATE::WHITE);
 
 	//ゲージ割合
 	gaugePercent_ = 0.0f;
@@ -61,8 +66,6 @@ void GameScene::Init(void)
 	imgCount_ = 1.0f;
 	isImg_ = false;
 
-	//スコアのリセット
-	rash_.ResetScore();
 }
 
 void GameScene::Update(void)
@@ -95,19 +98,23 @@ void GameScene::Update(void)
 		//連打数によってTシャツが変わるように
 		if (rash_.GetScore() >= 10)
 		{
-			dirtState_ = DIRT_STATE::LOW;
+			//dirtState_ = DIRT_STATE::LOW;
+			tState_.StateSet(TshirtsState::DIRT_STATE::LOW);
 		}
 		if (rash_.GetScore() >= 30)
 		{
-			dirtState_ = DIRT_STATE::MIDDLE;
+			//dirtState_ = DIRT_STATE::MIDDLE;
+			tState_.StateSet(TshirtsState::DIRT_STATE::MIDDLE);
 		}
 		if (rash_.GetScore() >= 50)
 		{
-			dirtState_ = DIRT_STATE::HIGH;
+			//dirtState_ = DIRT_STATE::HIGH;
+			tState_.StateSet(TshirtsState::DIRT_STATE::HIGH);
 		}
 		if (rash_.GetScore() >= 70)
 		{
-			dirtState_ = DIRT_STATE::MAX;
+			//dirtState_ = DIRT_STATE::MAX;
+			tState_.StateSet(TshirtsState::DIRT_STATE::MAX);
 		}
 
 		GaugeUpdate();
@@ -162,6 +169,8 @@ void GameScene::Draw(void)
 
 	//tシャツの描画
 	DrawTshirts();
+
+	tState_.DrawTshirts();
 
 	// ゲージ描画
 	DrawGauge();
@@ -321,11 +330,11 @@ void GameScene::GaugeLimit(void)
 void GameScene::LoadIMG(void)
 {
 
-	TshirtsWhite_ = LoadGraph((basePath + "TShirtsWhite.png").c_str());
-	TshirtsLow_ = LoadGraph((basePath + "TShirtsLow.png").c_str());
-	TshirtsMiddle_ = LoadGraph((basePath + "TShirtsMiddle.png").c_str());
-	TshirtsHigh_ = LoadGraph((basePath + "TShirtsHigh.png").c_str());
-	TshirtsMax_ = LoadGraph((basePath + "TShirtsCurry.png").c_str());
+	//TshirtsWhite_ = LoadGraph((basePath + "TShirtsWhite.png").c_str());
+	//TshirtsLow_ = LoadGraph((basePath + "TShirtsLow.png").c_str());
+	//TshirtsMiddle_ = LoadGraph((basePath + "TShirtsMiddle.png").c_str());
+	//TshirtsHigh_ = LoadGraph((basePath + "TShirtsHigh.png").c_str());
+	//TshirtsMax_ = LoadGraph((basePath + "TShirtsCurry.png").c_str());
 }
 
 void GameScene::DrawTshirts(void)
@@ -333,34 +342,34 @@ void GameScene::DrawTshirts(void)
 
 	Vector2 pos = { Application::SCREEN_SIZE_X - 100, 100 };
 
-	switch (dirtState_)
-	{
-	case DIRT_STATE::WHITE:
-	{
-		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsWhite_, true);
-	}
-	break;
-	case DIRT_STATE::LOW:
-	{
-		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsLow_, true);
-	}
-	break;
-	case DIRT_STATE::MIDDLE:
-	{
-		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMiddle_, true);
-	}
-	break;
-	case DIRT_STATE::HIGH:
-	{
-		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsHigh_, true);
-	}
-	break;
-	case DIRT_STATE::MAX:
-	{
-		DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMax_, true);
-	}
-	break;
-	}
+	//switch (tState_.GetState())
+	//{
+	//case tState_.GetState() = TshirtsState::DIRT_STATE::WHITE:
+	//{
+	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, , true);
+	//}
+	//break;
+	//case DIRT_STATE::LOW:
+	//{
+	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsLow_, true);
+	//}
+	//break;
+	//case DIRT_STATE::MIDDLE:
+	//{
+	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMiddle_, true);
+	//}
+	//break;
+	//case DIRT_STATE::HIGH:
+	//{
+	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsHigh_, true);
+	//}
+	//break;
+	//case DIRT_STATE::MAX:
+	//{
+	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMax_, true);
+	//}
+	//break;
+	//}
 }
 
 void GameScene::DrawUdon(void)
