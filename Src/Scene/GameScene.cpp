@@ -55,6 +55,12 @@ void GameScene::Init(void)
 	sticksIMG_ = LoadGraph((basePath + "ChopSticks.png").c_str());
 	sticksPos_ = { Application::SCREEN_SIZE_X / 2 + 150,Application::SCREEN_SIZE_Y };
 
+	// ゲームスタート時のカウント
+	startCount_ = 3.0f;
+	isStart_ = false;
+	imgCount_ = 0.5f;
+	isImg_ = false;
+
 	//スコアのリセット
 	rash_.ResetScore();
 }
@@ -62,51 +68,72 @@ void GameScene::Init(void)
 void GameScene::Update(void)
 {
 	InputManager& ins = InputManager::GetInstance();
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
+		|| time_ == 0)
 	{
-		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
-	}
-	//連打数によってTシャツが変わるように
-	if (rash_.GetScore() >= 10)
-	{
-		dirtState_ = DIRT_STATE::LOW;
-	}
-	if (rash_.GetScore() >= 30)
-	{
-		dirtState_ = DIRT_STATE::MIDDLE;
-	}
-	if (rash_.GetScore() >= 50)
-	{
-		dirtState_ = DIRT_STATE::HIGH;
-	}
-	if (rash_.GetScore() >= 70)
-	{
-		dirtState_ = DIRT_STATE::MAX;
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
 
-	GaugeUpdate();
+
+	// スタート時のカウントダウンを減らす
+	if (startCount_ >= 0.0f)
+	{
+		startCount_ -= SceneManager::GetInstance().GetDeltaTime();
+	}
+
+	if (isImg_ == true)
+	{
+		if (imgCount_ >= 0.0f)
+		{
+			imgCount_ -= SceneManager::GetInstance().GetDeltaTime();
+		}
+	}
+
 	
-
-	//時間を減らす
-	if (time_ <= 0.0f)
+	if (imgCount_ <= 0.0f)
 	{
-		time_ = 0.0f;
-	}
-	else
-	{
-		time_ -= 1 / 60.0f;
-	}
+		//連打数によってTシャツが変わるように
+		if (rash_.GetScore() >= 10)
+		{
+			dirtState_ = DIRT_STATE::LOW;
+		}
+		if (rash_.GetScore() >= 30)
+		{
+			dirtState_ = DIRT_STATE::MIDDLE;
+		}
+		if (rash_.GetScore() >= 50)
+		{
+			dirtState_ = DIRT_STATE::HIGH;
+		}
+		if (rash_.GetScore() >= 70)
+		{
+			dirtState_ = DIRT_STATE::MAX;
+		}
+
+		GaugeUpdate();
 
 
-	//うどんのmennの座標を可変
+		//時間を減らす
+		if (time_ <= 0.0f)
+		{
+			time_ = 0.0f;
+		}
+		else
+		{
+			time_ -= 1 / 60.0f;
+		}
 
-	noodlePos_.y -= 20;
-	sticksPos_.y -= 20;
 
-	if (noodlePos_.y <= -384)
-	{
-		noodlePos_.y = Application::SCREEN_SIZE_Y;
-		sticksPos_.y = Application::SCREEN_SIZE_Y;
+		//うどんのmennの座標を可変
+
+		noodlePos_.y -= 20;
+		sticksPos_.y -= 20;
+
+		if (noodlePos_.y <= -384)
+		{
+			noodlePos_.y = Application::SCREEN_SIZE_Y;
+			sticksPos_.y = Application::SCREEN_SIZE_Y;
+		}
 	}
 }
 
@@ -141,6 +168,23 @@ void GameScene::Draw(void)
 
 	DrawFormatString(300, 0, 0xff0000, "ENTER:%d", rash_.GetScore());
 
+	// スタート時のカウントを減らす
+	if (startCount_ > 0.0f)
+	{
+		DrawExtendFormatString(Application::SCREEN_SIZE_X / 2 - 50 - GetDrawFormatStringWidth("%.f"), Application::SCREEN_SIZE_Y / 2 - 95, 5, 5, 0xff0000, "%.f", startCount_);
+	}
+	if (startCount_ <= 0.0f)
+	{
+		isImg_ = true;
+	}
+
+	if (isImg_)
+	{
+		if (imgCount_ > 0.0f)
+		{
+			DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, START_END_REDUCTION, 0.0f, startImg_, true);
+		}
+	}
 
 }
 
@@ -161,11 +205,11 @@ void GameScene::GaugeUpdate(void)
 		gaugeLen_ -= GAUGE_DECREASE;
 	}
 
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
-		|| time_ == 0.0f)
-	{
-		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
-	}
+	//if (ins.IsTrgDown(KEY_INPUT_RETURN) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
+	//	|| time_ == 0.0f)
+	//{
+	//	SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
+	//}
 
 
 	//ゲージがマックスになったら連打できないようにする

@@ -58,6 +58,16 @@ public:
 
 
 private:
+	// ゲームスタート時のカウント
+	float startCount_;
+	// スタートフラグ
+	bool isStart_;
+
+	// よーい初めの描画カウント,フラグ
+	float imgCount_;
+	bool isImg_;
+
+
 #pragma region 連打ゲージ関連
 
 	// 連打数
