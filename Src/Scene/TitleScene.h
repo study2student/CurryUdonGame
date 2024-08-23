@@ -17,7 +17,10 @@ public:
 
 
 private:
-
+	//ƒ^ƒCƒgƒ‹‰æ‘œ
+	int title_;
+	//—V‚Ñ•û‰æ‘œ
+	int tutorial_;
 };
 
 
