@@ -4,6 +4,7 @@
 #include "../Score/TshirtsState.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/SceneManager.h"
+#include "../Manager/SoundManager.h"
 #include "GameScene.h"
 
 std::string basePath = Application::PATH_IMAGE;
@@ -41,8 +42,14 @@ void GameScene::Init(void)
 	LoadIMG();
 	tState_.LoadIMG();
 
+<<<<<<< Updated upstream
 	//dirtState_ = DIRT_STATE::WHITE;
 	tState_.StateSet(TshirtsState::DIRT_STATE::WHITE);
+=======
+	InitSound();
+
+	dirtState_ = DIRT_STATE::WHITE;
+>>>>>>> Stashed changes
 
 	//ゲージ割合
 	gaugePercent_ = 0.0f;
@@ -74,6 +81,10 @@ void GameScene::Update(void)
 	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
 		|| time_ == 0)
 	{
+		sound_->Release();
+		delete sound_;
+		sound_ = nullptr;
+
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
 
@@ -242,6 +253,8 @@ void GameScene::RashUpdate(void)
 		rash_.AddScore(1);
 		gaugeLen_++;
 		pushStopCnt_ = 0;
+		sound_->PlaySe(SoundManager::SE_TYPE::SLURP, DX_PLAYTYPE_BACK);
+		sound_->PlaySe(SoundManager::SE_TYPE::WATER, DX_PLAYTYPE_BACK);
 	}
 	
 }
@@ -303,6 +316,20 @@ void GameScene::UIUpdate(void)
 {
 }
 
+void GameScene::InitSound(void)
+{
+	sound_ = new SoundManager();
+	sound_->BGMInit();
+	sound_->SEInit();
+	sound_->LoadBgm(SoundManager::BGM_TYPE::GAME);
+	sound_->LoadSe(SoundManager::SE_TYPE::SLURP);//すする
+	sound_->LoadSe(SoundManager::SE_TYPE::WATER);//すすると同時
+	sound_->LoadSe(SoundManager::SE_TYPE::WHISTLE);	//終わり
+	sound_->LoadSe(SoundManager::SE_TYPE::DRUM);	//よーいはじめ
+	sound_->LoadSe(SoundManager::SE_TYPE::SIREN);
+	sound_->PlayBgm(SoundManager::BGM_TYPE::GAME, DX_PLAYTYPE_LOOP, 50);
+}
+
 void GameScene::GaugeLimit(void)
 {
 	//ゲージ上限
@@ -314,6 +341,7 @@ void GameScene::GaugeLimit(void)
 	if (gaugePercent_ >= PERCENT_MAX)
 	{
 		isCool_ = true;
+		sound_->PlaySe(SoundManager::SE_TYPE::SIREN, 60);
 	}
 	//ゲージ下限
 	else if (gaugePercent_ < 0.0f)

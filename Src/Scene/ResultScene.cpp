@@ -19,10 +19,14 @@ void ResultScene::Init(void)
 {
 	std::string basePath = Application::PATH_IMAGE;
 	resultImg_ = LoadGraph((basePath + "rash.png").c_str());
+<<<<<<< Updated upstream
 
 	frame_ = LoadGraph((basePath + "Frame.png").c_str());
 
 	goTitle_ = LoadGraph((basePath + "GoTitle.png").c_str());
+=======
+	SoundInit();
+>>>>>>> Stashed changes
 }
 
 void ResultScene::Update(void)
@@ -30,6 +34,10 @@ void ResultScene::Update(void)
 	InputManager& ins = InputManager::GetInstance();
 	if (ins.IsTrgDown(KEY_INPUT_RETURN) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
 	{
+		sound_->Release();
+		delete sound_;
+		sound_ = nullptr;
+
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 }
@@ -51,4 +59,13 @@ void ResultScene::Release(void)
 
 {
 	DeleteGraph(resultImg_);
+}
+
+void ResultScene::SoundInit(void)
+{
+	sound_ = new SoundManager();
+	sound_->BGMInit();
+	sound_->LoadBgm(SoundManager::BGM_TYPE::RESULT);
+	sound_->PlayBgm(SoundManager::BGM_TYPE::RESULT, DX_PLAYTYPE_LOOP,50);
+
 }

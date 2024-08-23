@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneBase.h"
+#include "../Manager/SoundManager.h"
+class SoundManager;
 class TitleScene : public SceneBase
 {
 
@@ -17,13 +19,21 @@ public:
 
 
 private:
+	//ポインタ
+	SoundManager* sound_;
 	//タイトル画像
 	int title_;
 	//遊び方画像
 	int tutorial_;
+<<<<<<< Updated upstream
 	//クレジット
 	int credit_;
 
+=======
+
+	//音関係の初期化
+	void SoundInit(void);
+>>>>>>> Stashed changes
 };
 
 

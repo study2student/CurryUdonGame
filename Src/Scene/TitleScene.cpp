@@ -16,8 +16,13 @@ void TitleScene::Init(void)
 {
 	std::string basePath = Application::PATH_IMAGE;
 	title_ = LoadGraph((basePath + "Title.png").c_str());
+<<<<<<< Updated upstream
 	//tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
 	credit_ = LoadGraph((basePath + "Credit1.jpeg").c_str());
+=======
+	tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
+	SoundInit();
+>>>>>>> Stashed changes
 }
 
 void TitleScene::Update(void)
@@ -25,6 +30,10 @@ void TitleScene::Update(void)
 	InputManager& ins = InputManager::GetInstance();
 	if (ins.IsTrgDown(KEY_INPUT_RETURN) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B))
 	{
+		sound_->PlaySe(SoundManager::SE_TYPE::TITLE2GAME, DX_PLAYTYPE_BACK/*, SoundManager::SE_VOL*/);
+		sound_->Release();
+		delete sound_;
+		sound_ = nullptr;
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME);
 	}
 }
@@ -42,4 +51,17 @@ void TitleScene::Draw(void)
 
 void TitleScene::Release(void)
 {
+	DeleteGraph(title_);
+	DeleteGraph(tutorial_);
+
+}
+
+void TitleScene::SoundInit(void)
+{
+	sound_ = new SoundManager();
+	sound_->BGMInit();
+	sound_->SEInit();
+	sound_->LoadBgm(SoundManager::BGM_TYPE::TITLE);
+	sound_->LoadSe(SoundManager::SE_TYPE::TITLE2GAME);
+	sound_->PlayBgm(SoundManager::BGM_TYPE::TITLE, DX_PLAYTYPE_LOOP, 40);
 }

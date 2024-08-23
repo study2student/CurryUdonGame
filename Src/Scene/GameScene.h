@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneBase.h"
+#include "../Manager/SoundManager.h"
+class SoundManager;
 class GameScene : public SceneBase
 {
 public:
@@ -61,6 +63,8 @@ public:
 
 
 private:
+	//サウンド関係
+	SoundManager* sound_;
 	// ゲームスタート時のカウント
 	float startCount_;
 	// スタートフラグ
@@ -73,8 +77,6 @@ private:
 
 #pragma region 連打ゲージ関連
 
-	// 連打数
-	//int rash_;
 
 	//時間
 	float time_;
@@ -124,6 +126,9 @@ private:
 
 	//UI更新処理
 	void UIUpdate(void);
+
+	//サウンド関係
+	void InitSound(void);
 #pragma endregion
 
 
