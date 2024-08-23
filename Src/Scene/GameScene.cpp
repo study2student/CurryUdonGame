@@ -48,7 +48,7 @@ void GameScene::Init(void)
 	//うどん絵
 	UdonIMG_ = LoadGraph((basePath + "UdonMax.png").c_str());
 	UdonNullIMG_ = LoadGraph((basePath + "UdonNull.png").c_str());
-	noodleIMG_ = LoadGraph((basePath + "Udon1.png").c_str());
+	noodleIMG_ = LoadGraph((basePath + "UdonAlpha1.png").c_str());
 	noodlePos_ = { Application::SCREEN_SIZE_X / 2,Application::SCREEN_SIZE_Y };
 
 	// 箸の絵
@@ -73,6 +73,7 @@ void GameScene::Update(void)
 	{
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
 	}
+<<<<<<< Updated upstream
 
 
 	// スタート時のカウントダウンを減らす
@@ -113,6 +114,48 @@ void GameScene::Update(void)
 		GaugeUpdate();
 
 
+=======
+
+
+	// スタート時のカウントダウンを減らす
+	if (startCount_ >= 0.0f)
+	{
+		startCount_ -= SceneManager::GetInstance().GetDeltaTime();
+	}
+
+	if (isImg_ == true)
+	{
+		if (imgCount_ >= 0.0f)
+		{
+			imgCount_ -= SceneManager::GetInstance().GetDeltaTime();
+		}
+	}
+
+
+	if (imgCount_ <= 0.0f)
+	{
+		//連打数によってTシャツが変わるように
+		if (rash_.GetScore() >= 10)
+		{
+			dirtState_ = DIRT_STATE::LOW;
+		}
+		if (rash_.GetScore() >= 30)
+		{
+			dirtState_ = DIRT_STATE::MIDDLE;
+		}
+		if (rash_.GetScore() >= 50)
+		{
+			dirtState_ = DIRT_STATE::HIGH;
+		}
+		if (rash_.GetScore() >= 70)
+		{
+			dirtState_ = DIRT_STATE::MAX;
+		}
+
+		GaugeUpdate();
+
+
+>>>>>>> Stashed changes
 		//時間を減らす
 		if (time_ <= 0.0f)
 		{
@@ -124,6 +167,7 @@ void GameScene::Update(void)
 		}
 
 
+<<<<<<< Updated upstream
 		//うどんのmennの座標を可変
 
 		noodlePos_.y -= 20;
@@ -133,9 +177,28 @@ void GameScene::Update(void)
 		{
 			noodlePos_.y = Application::SCREEN_SIZE_Y;
 			sticksPos_.y = Application::SCREEN_SIZE_Y;
+=======
+		if (noodlePos_.y <= -40)
+		{
+			noodlePos_.y = Application::SCREEN_SIZE_Y;
+			sticksPos_.y = Application::SCREEN_SIZE_Y;
+
+			//うどんのmennの座標を可変
+
+			noodlePos_.y -= 20;
+			sticksPos_.y -= 20;
+
+			if (noodlePos_.y <= -384)
+			{
+				noodlePos_.y = Application::SCREEN_SIZE_Y;
+				sticksPos_.y = Application::SCREEN_SIZE_Y;
+			}
+
+>>>>>>> Stashed changes
 		}
 	}
 }
+
 
 void GameScene::Draw(void)
 {
@@ -261,6 +324,7 @@ void GameScene::LoadUI(void)
 
 void GameScene::DrawUI(void)
 {
+<<<<<<< Updated upstream
 	//スコア描画
 	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.15, 0.0f, backScore_, true);
 	if (!(rash_.GetScore() == 0))
@@ -271,6 +335,26 @@ void GameScene::DrawUI(void)
 	//残り時間
 	DrawExtendGraph(0, 0, 250, 300, timeImg_, true);
 	DrawExtendFormatString(40, 80, 2.2, 2.2, 0xff0000, "%.f", time_);
+=======
+
+	DrawRotaGraphFast(Application::SCREEN_SIZE_X-100, 100, UI_REDUCTION, 0.0f, backScore_, true);
+
+	DrawRotaGraphFast(Application::SCREEN_SIZE_X - 100, 300, UI_REDUCTION, 0.0f, timeImg_, true);
+
+	DrawRotaGraphFast(Application::SCREEN_SIZE_X - 100, 300, START_END_REDUCTION, 0.0f, startImg_, true);
+
+	//スコア描画
+	DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 - 100, 0.15, 0.0f, backScore_, true);
+	if (!(rash_.GetScore() == 0))
+	{
+		DrawExtendFormatString(Application::SCREEN_SIZE_X / 2 - GetDrawFormatStringWidth("%d") / 2 - 80, Application::SCREEN_SIZE_Y / 2 - GetDrawFormatStringWidth("%d") / 2, 5, 5, 0xff0000, "%d", rash_.GetScore());
+	}
+
+	//残り時間
+	DrawExtendGraph(0, 0, 250, 300, timeImg_, true);
+	DrawExtendFormatString(40, 80, 2.2, 2.2, 0xff0000, "%.f", time_);
+
+>>>>>>> Stashed changes
 
 }
 
@@ -359,10 +443,19 @@ void GameScene::DrawUdon(void)
 		DrawRotaGraphFast(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2 + 200, 0.4, 0, UdonNullIMG_, true);
 	}
 	//うどんのmennの描画
-	DrawRotaGraphFast(noodlePos_.x, noodlePos_.y, 0.18, 0, noodleIMG_, true);
+	DrawRectGraph(
+		Application::SCREEN_SIZE_X / 2 - UDON_SIZE_.x/2
+		, Application::SCREEN_SIZE_Y /2 - UDON_SIZE_.y / 2+50
+		,noodlePos_.x-500, -noodlePos_.y+200
+		,UDON_SIZE_.x
+		,UDON_SIZE_.y
+		, noodleIMG_, true
+		,false
+		,false);
+	//DrawGraph(0, 0, noodleIMG_, true);
 	//for (int i = 0; i <= 500; i += 10)
 	//{
 	//	DrawExtendGraph(noodlePos_.x / 2, noodlePos_.y / 2, noodlePos_.x + (noodlePos_.x / 2), noodlePos_.y, noodleIMG_, true);
 	//}
-	DrawRotaGraphFast(sticksPos_.x, sticksPos_.y, 0.1, 0, sticksIMG_, true);
+	DrawRotaGraphFast(sticksPos_.x-30, sticksPos_.y, 0.1, 0, sticksIMG_, true);
 }

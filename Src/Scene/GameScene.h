@@ -25,6 +25,9 @@ public:
 	//画像サイズ
 	static constexpr VECTOR IMAGE_SIZE_ = { 4096,3072 };
 
+	//うどんサイズ
+	static constexpr VECTOR UDON_SIZE_ = { 737,552 };
+
 
 	// Tシャツの汚れ状態
 	enum  class DIRT_STATE
