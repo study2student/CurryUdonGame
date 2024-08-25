@@ -30,7 +30,7 @@ void GameScene::Init(void)
 	tState_.ResetState();
 
 	//時間
-	time_ = 15.0f;
+	time_ = 5.0f;
 	//ゲージの長さ
 	gaugeLen_ = 0.0f;
 
@@ -39,10 +39,9 @@ void GameScene::Init(void)
 
 	LoadUI();
 
-	LoadIMG();
 	tState_.LoadIMG();
 
-	//dirtState_ = DIRT_STATE::WHITE;
+
 	tState_.StateSet(TshirtsState::DIRT_STATE::WHITE);
 
 	InitSound();
@@ -70,22 +69,11 @@ void GameScene::Init(void)
 	isStart_ = false;
 	imgCount_ = 1.0f;
 	isImg_ = false;
-
+	endTime_ = 1.0f;
 }
 
 void GameScene::Update(void)
 {
-	InputManager& ins = InputManager::GetInstance();
-	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
-		|| time_ == 0)
-	{
-		sound_->Release();
-		delete sound_;
-		sound_ = nullptr;
-
-		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
-	}
-
 
 	// スタート時のカウントダウンを減らす
 	if (startCount_ >= 0.0f)
@@ -165,6 +153,27 @@ void GameScene::Update(void)
 			//}
 		}
 	}
+
+	//時間が0秒以下になったら終わりの画像を描画する時間を減らす
+	if (time_ <= 0.0f)
+	{
+		endTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	}
+	else if (endTime_ > 0.0f)
+	{
+		endTime_ = 1.0f;
+	}
+
+	InputManager& ins = InputManager::GetInstance();
+	if (ins.IsTrgDown(KEY_INPUT_SPACE) || static_cast<bool>(GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)
+		|| endTime_ <= 0.0f)
+	{
+		sound_->Release();
+		delete sound_;
+		sound_ = nullptr;
+
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::RESULT);
+	}
 }
 
 
@@ -175,9 +184,6 @@ void GameScene::Draw(void)
 	ChangeFont("Paintball_Beta", DX_CHARSET_DEFAULT);
 	
 	DrawUI();
-
-	//tシャツの描画
-	DrawTshirts();
 
 	tState_.DrawTshirts();
 
@@ -203,6 +209,11 @@ void GameScene::Draw(void)
 		{
 			DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, START_END_REDUCTION, 0.0f, startImg_, true);
 		}
+	}
+
+	if (time_ == 0.0f)
+	{
+		DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, START_END_REDUCTION, 0.0f, endImg_, true);
 	}
 
 }
@@ -351,51 +362,6 @@ void GameScene::GaugeLimit(void)
 	{
 		isCool_ = false;
 	}
-}
-
-void GameScene::LoadIMG(void)
-{
-
-	//TshirtsWhite_ = LoadGraph((basePath + "TShirtsWhite.png").c_str());
-	//TshirtsLow_ = LoadGraph((basePath + "TShirtsLow.png").c_str());
-	//TshirtsMiddle_ = LoadGraph((basePath + "TShirtsMiddle.png").c_str());
-	//TshirtsHigh_ = LoadGraph((basePath + "TShirtsHigh.png").c_str());
-	//TshirtsMax_ = LoadGraph((basePath + "TShirtsCurry.png").c_str());
-}
-
-void GameScene::DrawTshirts(void)
-{
-
-	Vector2 pos = { Application::SCREEN_SIZE_X - 100, 100 };
-
-	//switch (tState_.GetState())
-	//{
-	//case tState_.GetState() = TshirtsState::DIRT_STATE::WHITE:
-	//{
-	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, , true);
-	//}
-	//break;
-	//case DIRT_STATE::LOW:
-	//{
-	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsLow_, true);
-	//}
-	//break;
-	//case DIRT_STATE::MIDDLE:
-	//{
-	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMiddle_, true);
-	//}
-	//break;
-	//case DIRT_STATE::HIGH:
-	//{
-	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsHigh_, true);
-	//}
-	//break;
-	//case DIRT_STATE::MAX:
-	//{
-	//	DrawRotaGraphFast(pos.x, pos.y, UI_REDUCTION, 0, TshirtsMax_, true);
-	//}
-	//break;
-	//}
 }
 
 void GameScene::DrawUdon(void)

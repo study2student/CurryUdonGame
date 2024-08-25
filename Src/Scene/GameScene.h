@@ -74,6 +74,9 @@ private:
 	float imgCount_;
 	bool isImg_;
 
+	// リザルトシーンの遷移時間
+	float endTime_;
+
 
 #pragma region 連打ゲージ関連
 
@@ -134,23 +137,6 @@ private:
 
 #pragma region 描画関係
 
-	////Tシャツの画像
-	//int Tshirts_;
-	//int TshirtsWhite_;
-	//int TshirtsLow_;
-	//int TshirtsMiddle_;
-	//int TshirtsHigh_;
-	//int TshirtsMax_;
-
-
-	//// Tシャツの汚れ状態
-	//DIRT_STATE dirtState_;
-
-	//Tシャツの画像をロード
-	void LoadIMG(void);
-
-	//Tshirts描画
-	void DrawTshirts(void);
 
 	//うどんの皿
 	int UdonIMG_;
