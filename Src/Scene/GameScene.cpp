@@ -30,7 +30,7 @@ void GameScene::Init(void)
 	tState_.ResetState();
 
 	//時間
-	time_ = 5.0f;
+	time_ = 15.0f;
 	//ゲージの長さ
 	gaugeLen_ = 0.0f;
 
@@ -92,65 +92,68 @@ void GameScene::Update(void)
 
 	if (imgCount_ <= 0.0f)
 	{
-		//連打数によってTシャツが変わるように
-		if (rash_.GetScore() >= 10)
+		if (endTime_ >= 1.0f)
 		{
-			//dirtState_ = DIRT_STATE::LOW;
-			tState_.StateSet(TshirtsState::DIRT_STATE::LOW);
-		}
-		if (rash_.GetScore() >= 30)
-		{
-			//dirtState_ = DIRT_STATE::MIDDLE;
-			tState_.StateSet(TshirtsState::DIRT_STATE::MIDDLE);
-		}
-		if (rash_.GetScore() >= 50)
-		{
-			//dirtState_ = DIRT_STATE::HIGH;
-			tState_.StateSet(TshirtsState::DIRT_STATE::HIGH);
-		}
-		if (rash_.GetScore() >= 70)
-		{
-			//dirtState_ = DIRT_STATE::MAX;
-			tState_.StateSet(TshirtsState::DIRT_STATE::MAX);
-		}
+			//連打数によってTシャツが変わるように
+			if (rash_.GetScore() >= 10)
+			{
+				//dirtState_ = DIRT_STATE::LOW;
+				tState_.StateSet(TshirtsState::DIRT_STATE::LOW);
+			}
+			if (rash_.GetScore() >= 30)
+			{
+				//dirtState_ = DIRT_STATE::MIDDLE;
+				tState_.StateSet(TshirtsState::DIRT_STATE::MIDDLE);
+			}
+			if (rash_.GetScore() >= 50)
+			{
+				//dirtState_ = DIRT_STATE::HIGH;
+				tState_.StateSet(TshirtsState::DIRT_STATE::HIGH);
+			}
+			if (rash_.GetScore() >= 70)
+			{
+				//dirtState_ = DIRT_STATE::MAX;
+				tState_.StateSet(TshirtsState::DIRT_STATE::MAX);
+			}
 
-		GaugeUpdate();
+			GaugeUpdate();
 
-		//時間を減らす
-		if (time_ <= 0.0f)
-		{
-			time_ = 0.0f;
-		}
-		else
-		{
-			time_ -= 1 / 60.0f;
-		}
-
-		//うどんのmennの座標を可変
-
-		noodlePos_.y -= 20;
-		sticksPos_.y -= 20;
-
-		//if (noodlePos_.y <= -384)
-		//{
-		//	noodlePos_.y = Application::SCREEN_SIZE_Y;
-		//	sticksPos_.y = Application::SCREEN_SIZE_Y;
-
-		if (noodlePos_.y <= -40)
-		{
-			noodlePos_.y = Application::SCREEN_SIZE_Y;
-			sticksPos_.y = Application::SCREEN_SIZE_Y;
+			//時間を減らす
+			if (time_ <= 0.0f)
+			{
+				time_ = 0.0f;
+			}
+			else
+			{
+				time_ -= SceneManager::GetInstance().GetDeltaTime();
+			}
 
 			//うどんのmennの座標を可変
 
-			//noodlePos_.y -= 20;
-			//sticksPos_.y -= 20;
+			noodlePos_.y -= 20;
+			sticksPos_.y -= 20;
 
 			//if (noodlePos_.y <= -384)
 			//{
 			//	noodlePos_.y = Application::SCREEN_SIZE_Y;
 			//	sticksPos_.y = Application::SCREEN_SIZE_Y;
-			//}
+
+			if (noodlePos_.y <= -40)
+			{
+				noodlePos_.y = Application::SCREEN_SIZE_Y;
+				sticksPos_.y = Application::SCREEN_SIZE_Y;
+
+				//うどんのmennの座標を可変
+
+				//noodlePos_.y -= 20;
+				//sticksPos_.y -= 20;
+
+				//if (noodlePos_.y <= -384)
+				//{
+				//	noodlePos_.y = Application::SCREEN_SIZE_Y;
+				//	sticksPos_.y = Application::SCREEN_SIZE_Y;
+				//}
+			}
 		}
 	}
 
@@ -158,10 +161,6 @@ void GameScene::Update(void)
 	if (time_ <= 0.0f)
 	{
 		endTime_ -= SceneManager::GetInstance().GetDeltaTime();
-	}
-	else if (endTime_ > 0.0f)
-	{
-		endTime_ = 1.0f;
 	}
 
 	InputManager& ins = InputManager::GetInstance();
@@ -211,7 +210,7 @@ void GameScene::Draw(void)
 		}
 	}
 
-	if (time_ == 0.0f)
+	if (time_ <= 0.0f)
 	{
 		DrawRotaGraph(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2, START_END_REDUCTION, 0.0f, endImg_, true);
 	}
