@@ -16,19 +16,13 @@ void TitleScene::Init(void)
 {
 	std::string basePath = Application::PATH_IMAGE;
 	title_ = LoadGraph((basePath + "Title.png").c_str());
-<<<<<<< Updated upstream
-	//tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
 	credit_ = LoadGraph((basePath + "Credit1.jpeg").c_str());
-<<<<<<< Updated upstream
-=======
-	tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
+
 	SoundInit();
->>>>>>> Stashed changes
-=======
 
 	//ゲームスタート
 	start_ = LoadGraph((basePath + "GameStart.png").c_str());
->>>>>>> Stashed changes
+
 }
 
 void TitleScene::Update(void)

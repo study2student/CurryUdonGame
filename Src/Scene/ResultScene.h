@@ -18,13 +18,12 @@ private:
 	SoundManager* sound_;
 	//リザルト絵
 	int resultImg_;
-<<<<<<< Updated upstream
 	int frame_;
 	int goTitle_;
-=======
+
 
 	//サウンド初期化
 	void SoundInit(void);
->>>>>>> Stashed changes
+
 };
 

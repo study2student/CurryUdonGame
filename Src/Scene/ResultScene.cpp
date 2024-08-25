@@ -19,14 +19,14 @@ void ResultScene::Init(void)
 {
 	std::string basePath = Application::PATH_IMAGE;
 	resultImg_ = LoadGraph((basePath + "rash.png").c_str());
-<<<<<<< Updated upstream
+
 
 	frame_ = LoadGraph((basePath + "Frame.png").c_str());
 
 	goTitle_ = LoadGraph((basePath + "GoTitle.png").c_str());
-=======
+
 	SoundInit();
->>>>>>> Stashed changes
+
 }
 
 void ResultScene::Update(void)

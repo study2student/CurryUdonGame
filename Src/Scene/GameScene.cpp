@@ -42,14 +42,12 @@ void GameScene::Init(void)
 	LoadIMG();
 	tState_.LoadIMG();
 
-<<<<<<< Updated upstream
 	//dirtState_ = DIRT_STATE::WHITE;
 	tState_.StateSet(TshirtsState::DIRT_STATE::WHITE);
-=======
+
 	InitSound();
 
-	dirtState_ = DIRT_STATE::WHITE;
->>>>>>> Stashed changes
+
 
 	//ÉQÅ[ÉWäÑçá
 	gaugePercent_ = 0.0f;
