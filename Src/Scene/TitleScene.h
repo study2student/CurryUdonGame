@@ -28,11 +28,16 @@ private:
 <<<<<<< Updated upstream
 	//クレジット
 	int credit_;
+<<<<<<< Updated upstream
 
 =======
 
 	//音関係の初期化
 	void SoundInit(void);
+>>>>>>> Stashed changes
+=======
+	//ゲームスタート
+	int start_;
 >>>>>>> Stashed changes
 };
 

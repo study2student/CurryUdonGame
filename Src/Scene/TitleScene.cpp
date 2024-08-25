@@ -19,9 +19,15 @@ void TitleScene::Init(void)
 <<<<<<< Updated upstream
 	//tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
 	credit_ = LoadGraph((basePath + "Credit1.jpeg").c_str());
+<<<<<<< Updated upstream
 =======
 	tutorial_ = LoadGraph((basePath + "Tutorial.png").c_str());
 	SoundInit();
+>>>>>>> Stashed changes
+=======
+
+	//ゲームスタート
+	start_ = LoadGraph((basePath + "GameStart.png").c_str());
 >>>>>>> Stashed changes
 }
 
@@ -45,7 +51,13 @@ void TitleScene::Draw(void)
 	DrawExtendGraph(Application::SCREEN_SIZE_X / 2, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, tutorial_, true);
 
 	//クレジット
-	DrawExtendGraph(10, Application::SCREEN_SIZE_Y / 2, Application::SCREEN_SIZE_X / 2-10, Application::SCREEN_SIZE_Y-10, credit_, true);
+	DrawExtendGraph(10, Application::SCREEN_SIZE_Y / 2 + Application::SCREEN_SIZE_Y / 8, Application::SCREEN_SIZE_X / 2 - 10, Application::SCREEN_SIZE_Y - 10,
+		credit_, true);
+
+	//ゲームスタート
+	DrawExtendGraph(10, Application::SCREEN_SIZE_Y / 2 - 50, 
+		Application::SCREEN_SIZE_X / 2 - 10, Application::SCREEN_SIZE_Y / 2 + Application::SCREEN_SIZE_Y / 8,
+		start_, true);
 	
 }
 
